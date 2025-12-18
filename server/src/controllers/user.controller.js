@@ -9,7 +9,11 @@ export const createUser = async (req, res) => {
         res.status(200).json({
             success: true,
             data: users
-        });
+        })
+        // .writeHead(200, {
+        //     'Content-Type': 'text/plain',
+        //     'Set-Cookie': 'session_id=abc12345; HttpOnly; Secure; Path=/' // Manual header
+        // });
 
     } catch (error) {
         res.status(500).json({
@@ -19,10 +23,10 @@ export const createUser = async (req, res) => {
 
     }
 }
+
 export const getAllUsers = async (req, res) => {
     try {
-
-        // console.log("requesrt-------------------------------------------", req.body);
+       
         const users = await getAllUsersService();
 
         res.status(200).json({

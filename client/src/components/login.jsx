@@ -2,20 +2,25 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { addUserDetail } from '../Redux/userSlice'
+import { createUser } from '../services/Api'
 
 export default function Login() {
 
     const [inputData, setInputData] = useState({})
 
-
-    const count = useSelector((state) => state.User.value)
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     const formSubmit = async () => {
         try {
-            
+            if (Object.keys(inputData).length != 3) {
+                alert("All Fields are requere");
+                return;
+            }
+            const userData = await createUser(inputData);
+            dispatch(addUserDetail(userData))
+            localStorage.setItem("user-data", JSON.stringify(userData));
         } catch (error) {
-            
+            console.log("login page api call error", error)
         }
     }
 
@@ -30,11 +35,9 @@ export default function Login() {
     return (
         <div className="loginpage flex justify-center items-center min-h-screen bg-gradient-to-r from-purple-600 to-indigo-600 px-4">
             <form
-                onSubmit={formSubmit}    
                 className="form flex flex-col gap-6 text-white shadow-lg rounded-2xl max-w-md w-full px-10 py-8 bg-black/40 backdrop-blur-md"
             >
                 <h1 className="text-5xl font-bold text-center mb-6">Sign Up</h1>
-
 
                 {/* Username */}
                 <div className="flex flex-col">
@@ -73,10 +76,7 @@ export default function Login() {
                     />
 
                 </div>
-
-
-
-
+                <button type='button' className='bg-[green] rounded-full py-[13px]' onClick={formSubmit}>Sign In</button>
                 <Link to="/login" className="text-center">
                     Allready Have an Account{" "}
                     <span className="text-red-500 capitalize font-bold">Login</span>
