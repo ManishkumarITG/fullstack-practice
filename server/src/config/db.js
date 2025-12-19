@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 const mongoUri = "mongodb+srv://manish_7771:manish_7771@manish.juwiizf.mongodb.net/testApp"
-
 export const  connectDB = async () => {
     console.log("------------------------=-------------------------------",mongoUri);
     

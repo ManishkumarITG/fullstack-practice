@@ -1,10 +1,11 @@
 import { User } from "../models/user.model.js"
 export const createUserService = async (req) => {
+    const { userName, password, activity, role, email } = req;
     try {
 
-        const { name, password, activity, role, email } = req;
+        // console.log(userName, password,activity,req,  "--------------------------------------------------------------------");
 
-        if (!name || !password || !email) {
+        if (!userName || !password || !email) {
             return {
                 status: 400,
                 msg: "all field requires"
@@ -12,7 +13,7 @@ export const createUserService = async (req) => {
         }
 
         const user = await User.create({
-            name,
+            name: userName,
             password,
             activity,
             role,
@@ -21,7 +22,12 @@ export const createUserService = async (req) => {
         return user;
     } catch (error) {
         console.log("createUserService------------------------------------------------------", error);
-
+        if (error.code === 11000) {
+            return {
+                success: false,
+                message: `${userName} already exists`
+            };
+        }
         return {
             status: 500,
             msg: error
@@ -41,13 +47,5 @@ export const getAllUsersService = async () => {
             status: 500,
             msg: error
         }
-    }
-}
-export const upadateActivity = () =>{
-    try {
-        
-    } catch (error) {
-        console.log();
-        
     }
 }

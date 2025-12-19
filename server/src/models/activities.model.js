@@ -6,6 +6,10 @@ const activitySchema = new Schema({
         type: String,
         required: true
     },
+    Value: {
+          type: Number,  
+          default : 0
+    },
     userName: {
         type: String,
         required: true

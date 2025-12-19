@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { addUserDetail } from '../Redux/userSlice'
 import { createUser } from '../services/Api'
 
-export default function Login() {
+export default function SignIn() {
 
     const [inputData, setInputData] = useState({})
 
@@ -17,14 +17,15 @@ export default function Login() {
                 return;
             }
             const userData = await createUser(inputData);
-            dispatch(addUserDetail(userData))
-            localStorage.setItem("user-data", JSON.stringify(userData));
+            if (userData.success) {
+                dispatch(addUserDetail(userData.data));
+                localStorage.setItem("user-data", JSON.stringify(userData.data));
+            }
+
         } catch (error) {
             console.log("login page api call error", error)
         }
     }
-
-
 
     const inputChangeHandler = (e) => {
         const { name, value } = e.target;

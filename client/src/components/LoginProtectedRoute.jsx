@@ -1,12 +1,12 @@
-import { useNavigate } from "react-router-dom";
+
 
 import { Outlet, Navigate } from "react-router-dom";
+import Layout from "./Layout";
 
 export default function LoginProtectedRoute() {
-    return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace/>
+  
+    return isAuthenticated() ? <Layout /> : <Navigate to="/sign" replace/>
 }
 
+export const isAuthenticated = () =>  localStorage.getItem("user-data");
 
-export const isAuthenticated = () => {
-  return !!localStorage.getItem("user-data");
-};
